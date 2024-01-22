@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA88C6CF2B5E3D1F00D096E3 /* StoresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88C6CE2B5E3D1F00D096E3 /* StoresView.swift */; };
+		FA88C6D22B5E3DAC00D096E3 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88C6D12B5E3DAC00D096E3 /* StoreModel.swift */; };
+		FA88C6D42B5E42E500D096E3 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88C6D32B5E3F7500D096E3 /* CartView.swift */; };
+		FA88C6D62B5E430A00D096E3 /* CartItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA88C6D52B5E430A00D096E3 /* CartItemModel.swift */; };
 		FAF4502A2B5D57C500B71EDE /* FoodMarketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF450292B5D57C500B71EDE /* FoodMarketApp.swift */; };
 		FAF4502C2B5D57C500B71EDE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF4502B2B5D57C500B71EDE /* ContentView.swift */; };
 		FAF4502E2B5D57C600B71EDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAF4502D2B5D57C600B71EDE /* Assets.xcassets */; };
@@ -36,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA88C6CE2B5E3D1F00D096E3 /* StoresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoresView.swift; sourceTree = "<group>"; };
+		FA88C6D12B5E3DAC00D096E3 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
+		FA88C6D32B5E3F7500D096E3 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		FA88C6D52B5E430A00D096E3 /* CartItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemModel.swift; sourceTree = "<group>"; };
 		FAF450262B5D57C500B71EDE /* FoodMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAF450292B5D57C500B71EDE /* FoodMarketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMarketApp.swift; sourceTree = "<group>"; };
 		FAF4502B2B5D57C500B71EDE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +83,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA88C6CB2B5E3C8400D096E3 /* StoresModule */ = {
+			isa = PBXGroup;
+			children = (
+				FA88C6CE2B5E3D1F00D096E3 /* StoresView.swift */,
+			);
+			path = StoresModule;
+			sourceTree = "<group>";
+		};
+		FA88C6CC2B5E3CE400D096E3 /* CartModule */ = {
+			isa = PBXGroup;
+			children = (
+				FA88C6D32B5E3F7500D096E3 /* CartView.swift */,
+			);
+			path = CartModule;
+			sourceTree = "<group>";
+		};
+		FA88C6CD2B5E3CED00D096E3 /* ProfileModule */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ProfileModule;
+			sourceTree = "<group>";
+		};
+		FA88C6D02B5E3D9000D096E3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA88C6D12B5E3DAC00D096E3 /* StoreModel.swift */,
+				FA88C6D52B5E430A00D096E3 /* CartItemModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FAF4501D2B5D57C500B71EDE = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +138,10 @@
 		FAF450282B5D57C500B71EDE /* FoodMarket */ = {
 			isa = PBXGroup;
 			children = (
+				FA88C6D02B5E3D9000D096E3 /* Models */,
+				FA88C6CB2B5E3C8400D096E3 /* StoresModule */,
+				FA88C6CD2B5E3CED00D096E3 /* ProfileModule */,
+				FA88C6CC2B5E3CE400D096E3 /* CartModule */,
 				FAF450292B5D57C500B71EDE /* FoodMarketApp.swift */,
 				FAF4502B2B5D57C500B71EDE /* ContentView.swift */,
 				FAF4502D2B5D57C600B71EDE /* Assets.xcassets */,
@@ -263,10 +307,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA88C6D62B5E430A00D096E3 /* CartItemModel.swift in Sources */,
 				FAF450332B5D57C600B71EDE /* Persistence.swift in Sources */,
+				FA88C6D42B5E42E500D096E3 /* CartView.swift in Sources */,
+				FA88C6CF2B5E3D1F00D096E3 /* StoresView.swift in Sources */,
 				FAF4502C2B5D57C500B71EDE /* ContentView.swift in Sources */,
 				FAF4502A2B5D57C500B71EDE /* FoodMarketApp.swift in Sources */,
 				FAF450362B5D57C600B71EDE /* FoodMarket.xcdatamodeld in Sources */,
+				FA88C6D22B5E3DAC00D096E3 /* StoreModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
