@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import FoodMarket
+@testable import FoodMarketApp
 
 final class FoodMarketTests: XCTestCase {
 
