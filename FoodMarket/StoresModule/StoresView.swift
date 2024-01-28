@@ -9,12 +9,50 @@ import SwiftUI
 
 struct StoresView: View {
     
-    let stores = (0...10).map { StoreModel(name: "Store #\($0)", brandImageURL: nil) }
+    let types = ["Supermarket", "Hypermarket", "PetStore"]
+    let storeNames = ["FirstStore", "SecondStore", "Multiline Store With Long Name"]
     
     var body: some View {
-        List(stores) {
-            Text("\($0.name) \($0.brandImageURL?.absoluteString ?? "")")
+        contentListView()
+    }
+    
+    func contentListView() -> some View {
+        let columns = [
+            GridItem(.flexible(), spacing: 8),
+            GridItem(.flexible(), spacing: 8)
+        ]
+
+        
+        return ScrollView {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 12) {
+                    ForEach(types.indices) { oindex in
+                        Section {
+                            ForEach(0..<10) { index in
+                                let storeName = storeNames[index % storeNames.count]
+                                StoreView(name: storeName, action: {
+                                    print("Selected store \(storeName)")
+                                })
+                            }
+                        } header: {
+                            HStack {
+                                Text("\(types[oindex % types.count])").font(.title2).bold()
+                                Spacer()
+                            }
+                        }
+                        Spacer().frame(height: 4)
+                    }
+                }
+            }
         }
+        .refreshable {
+            await reload()
+        }
+        .padding()
+    }
+    
+    func reload() async {
+        print("Stores list reloading")
     }
 }
 
