@@ -13,8 +13,11 @@ struct CartView: View {
     
     var body: some View {
         List(products) {
-            Text(String(describing: $0))
+            CartItemView(cartItem: $0)
+                .listRowSeparator(.hidden)
+                .listRowInsets(.init(top: 8, leading: 12, bottom: 0, trailing: 12))
         }
+        .listStyle(.plain)
     }
 }
 
