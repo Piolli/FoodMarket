@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CartItemView: View {
     let cartItem: CartItemModel
@@ -17,16 +18,12 @@ struct CartItemView: View {
     var body: some View {
         HStack(spacing: 0) {
             HStack(alignment: .center, spacing: 12) {
-                AsyncImage(url: URL(string: mockImagePath)) { image in
-                    image.resizable().scaledToFill().frame(width: 96, height: 96)
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(width: 96, height: 96)
-                .clipped()
+                KFImage.url(URL(string: mockImagePath))
+                    .setCommonParams(imageSize: .init(width: 96, height: 96), cornerRadius: 4)
+                    .frame(width: 96, height: 96)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(cartItem.name).font(.headline)//.fontWeight(.bold)
+                    Text(cartItem.name).font(.headline)
                     Text("\(cartItem.formattedPrice)").font(.subheadline)
                 }.padding([.top, .bottom], 8)
             }
