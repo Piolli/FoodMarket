@@ -22,12 +22,18 @@ let mainAppTarget = Target(name: "FoodMarketApp",
                            deploymentTargets: .iOS("16.0"),
                            infoPlist: .extendingDefault(with: ["UILaunchScreen": .string("")]),
                            sources: "FoodMarket/**",
-                           dependencies: [],
+                           dependencies: [
+                            .package(product: "Kingfisher")
+                           ],
                            coreDataModels: [
                             CoreDataModel("FoodMarket/FoodMarket.xcdatamodeld")
                            ])
 
 let project = Project(name: "FoodMarket",
+                      packages: [
+                        .remote(url: "https://github.com/onevcat/Kingfisher.git",
+                                requirement: .upToNextMajor(from: "7.0.0"))
+                      ],
                       targets: [
                         mainAppTarget,
                         unitTestsTarget,
