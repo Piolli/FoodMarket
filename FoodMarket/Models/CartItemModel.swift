@@ -5,16 +5,23 @@
 //  Created by Alex on 22.01.2024.
 //
 
-import Foundation
+import SwiftUI
 
-struct CartItemModel: Identifiable {
+class CartItemModel: Identifiable, ObservableObject {
+    @Published var quantity: Int
+    @Published var price: Float
+    
     let id = UUID()
     let name: String
-    let quantity: Int
-    let price: Float
+    
+    init(name: String, quantity: Int, price: Float) {
+        self.name = name
+        self.quantity = quantity
+        self.price = price
+    }
     
     var formattedPrice: String {
-        return currencyFormatter.string(from: price as NSNumber)!
+        return currencyFormatter.string(from: (price * Float(quantity)) as NSNumber)!
     }
     
     private let currencyFormatter: NumberFormatter = {

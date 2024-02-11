@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CartView: View {
     
-    let products = (0...10).map { CartItemModel(name: "Product #\($0)", quantity: $0, price: Float($0) * 100) }
+    let products = (1...10).map { CartItemModel(name: "Product #\($0)", quantity: $0, price: Float($0) * 100) }
     
     var body: some View {
         List(products) {

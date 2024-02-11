@@ -9,8 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct CartItemView: View {
-    let cartItem: CartItemModel
-    @State var quantity = 1
+    @StateObject var cartItem: CartItemModel
     
 //    let mockImagePath = "https://plus.unspvlash.com/premium_photo-1661603980318-f3cf182b2ec8?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     let mockImagePath = "https://images.unsplash.com/photo-1563636619-e9143da7973b?q=80&w=3072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -32,8 +31,8 @@ struct CartItemView: View {
             
             HStack {
                 VStack(alignment: .center) {
-                    Stepper(value: $quantity, in: 1...99, label: { }).labelsHidden()
-                    Text("Quantity \(quantity)").font(.footnote)
+                    Stepper(value: $cartItem.quantity, in: 1...99, label: { }).labelsHidden()
+                    Text("Quantity \(cartItem.quantity)").font(.footnote)
                 }
                 Spacer().frame(width: 12)
             }
