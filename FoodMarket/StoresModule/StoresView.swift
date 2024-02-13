@@ -12,8 +12,15 @@ struct StoresView: View {
     let types = ["Supermarket", "Hypermarket", "PetStore"]
     let storeNames = ["FirstStore", "SecondStore", "Multiline Store With Long Name"]
     
+    @State private var path = NavigationPath()
+    
     var body: some View {
-        contentListView()
+        NavigationStack(path: $path) {
+            contentListView()
+                .navigationDestination(for: String.self) { value in
+                    StoreProductCategoriesView(storeModel: .init(name: value, brandImageURL: nil))
+                }
+        }
     }
     
     func contentListView() -> some View {
@@ -26,12 +33,13 @@ struct StoresView: View {
         return ScrollView {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(types.indices) { oindex in
+                    ForEach(types.indices, id: \.self) { oindex in
                         Section {
                             ForEach(0..<10) { index in
                                 let storeName = storeNames[index % storeNames.count]
                                 StoreView(name: storeName, action: {
                                     print("Selected store \(storeName)")
+                                    path.append(storeName)
                                 })
                             }
                         } header: {
