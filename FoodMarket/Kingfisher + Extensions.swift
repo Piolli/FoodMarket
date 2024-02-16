@@ -9,10 +9,15 @@ import SwiftUI
 import Kingfisher
 
 extension KFImageProtocol {
-    func setCommonParams(imageSize: CGSize, cornerRadius: CGFloat?) -> Self {
+    func setCommonParams(imageSize: CGSize, cornerRadius: CGFloat? = nil, additionalProcessor: ImageProcessor? = nil) -> Self {
         var imageProcessor: ImageProcessor = DownsamplingImageProcessor(size: imageSize)
+        
         if let cornerRadius {
-            imageProcessor = imageProcessor |> RoundCornerImageProcessor(cornerRadius: 4)
+            imageProcessor = imageProcessor |> RoundCornerImageProcessor(cornerRadius: cornerRadius)
+        }
+        
+        if let additionalProcessor {
+            imageProcessor = imageProcessor |> additionalProcessor
         }
         
         return self

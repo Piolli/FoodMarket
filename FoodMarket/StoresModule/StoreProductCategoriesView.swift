@@ -32,13 +32,13 @@ struct StoreProductCategoriesView: View {
             GridItem(.flexible(), spacing: 8),
             GridItem(.flexible(), spacing: 8)
         ]
-
         
         return ScrollView {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(productTypes, id: \.self) { category in
-                        StoreProductCategoryItemView(categoryName: category, action: {
+                        let url = URL(string: "https://images.unsplash.com/photo-1516885440144-05ba68c5b5ab?q=80&w=3077&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+                        StoreProductCategoryItemView(categoryName: category, backgroundImageURL: url, action: {
                             print("On select product category \(category)")
                         })
                     }
