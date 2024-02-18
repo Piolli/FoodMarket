@@ -9,7 +9,10 @@ import SwiftUI
 import Kingfisher
 
 extension KFImageProtocol {
-    func setCommonParams(imageSize: CGSize, cornerRadius: CGFloat? = nil, additionalProcessor: ImageProcessor? = nil) -> Self {
+    func setCommonParams(imageSize: CGSize, 
+                         cornerRadius: CGFloat? = nil,
+                         additionalProcessor: ImageProcessor? = nil,
+                         usePlaceHolder: Bool = true) -> Self {
         var imageProcessor: ImageProcessor = DownsamplingImageProcessor(size: imageSize)
         
         if let cornerRadius {
@@ -21,8 +24,10 @@ extension KFImageProtocol {
         }
         
         return self
-            .placeholder{
-                ProgressView()
+            .placeholder {
+                if usePlaceHolder {
+                    ProgressView()
+                }
             }
             .scaleFactor(UIScreen.main.scale)
             .setProcessor(imageProcessor)

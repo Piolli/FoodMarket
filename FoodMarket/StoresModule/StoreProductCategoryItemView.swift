@@ -16,6 +16,7 @@ struct StoreProductCategoryItemView: View {
     let action: (() -> Void)
     
     @State var isPressed = false
+    @State var loadingImage = true
     
     var body: some View {
         ZStack {
@@ -24,7 +25,11 @@ struct StoreProductCategoryItemView: View {
                         .setCommonParams(imageSize: .init(width: 100, height: 100),
                                          cornerRadius: 0,
                                          /// move mock-image slighly right (design images must be bottom-right alignment)
-                                         additionalProcessor: CroppingImageProcessor(size: .init(width: 70, height: 65), anchor: .init(x: 0, y: 0.5)))
+                                         additionalProcessor: CroppingImageProcessor(size: .init(width: 70, height: 65), anchor: .init(x: 0, y: 0.5)),
+                                         usePlaceHolder: false)
+                        .onSuccess { result in
+                            loadingImage = false
+                        }
                         .resizable()
                         .scaledToFill()
                         .frame(width: proxy.size.width, height: proxy.size.height)
@@ -56,6 +61,7 @@ struct StoreProductCategoryItemView: View {
             self.isPressed = isPressed
         })
         .contentShape(Rectangle())
+        .skeleton { loadingImage }
     }
 }
 
