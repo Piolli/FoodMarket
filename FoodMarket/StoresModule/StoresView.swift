@@ -12,13 +12,19 @@ struct StoresView: View {
     let types = ["Supermarket", "Hypermarket", "PetStore"]
     let storeNames = ["FirstStore", "SecondStore", "Multiline Store With Long Name"]
     
-    @State private var path = NavigationPath()
+    @State private var navigationPath = NavigationPath()
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack(path: $navigationPath) {
             contentListView()
                 .navigationDestination(for: String.self) { value in
-                    StoreProductCategoriesView(storeModel: .init(name: value, brandImageURL: nil))
+                    switch value {
+                    case ProductsView.navigationID:
+                        ProductsView(navigationPath: $navigationPath)
+                    /// TODO: create route for StoreProductCategoriesView (use enum with associated values?)
+                    default:
+                        StoreProductCategoriesView(navigationPath: $navigationPath, storeModel: .init(name: value, brandImageURL: nil))
+                    }
                 }
         }
     }
@@ -39,7 +45,7 @@ struct StoresView: View {
                                 let storeName = storeNames[index % storeNames.count]
                                 StoreView(name: storeName, action: {
                                     print("Selected store \(storeName)")
-                                    path.append(storeName)
+                                    navigationPath.append(storeName)
                                 })
                             }
                         } header: {

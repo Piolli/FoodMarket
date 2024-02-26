@@ -7,7 +7,15 @@
 
 import SwiftUI
 
+extension View {
+    static var navigationID: String {
+        return String(describing: Self.self)
+    }
+}
+
 struct StoreProductCategoriesView: View {
+    
+    @Binding var navigationPath: NavigationPath
     
     var storeModel: StoreModel
     
@@ -40,6 +48,7 @@ struct StoreProductCategoriesView: View {
                         let url = URL(string: "https://images.unsplash.com/photo-1516885440144-05ba68c5b5ab?q=80&w=3077&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
                         StoreProductCategoryItemView(categoryName: category, backgroundImageURL: url, action: {
                             print("On select product category \(category)")
+                            navigationPath.append(ProductsView.navigationID)
                         })
                     }
                     Spacer().frame(height: 4)
@@ -54,5 +63,5 @@ struct StoreProductCategoriesView: View {
 }
 
 #Preview {
-    StoreProductCategoriesView(storeModel: .init(name: "SomeModel", brandImageURL: nil))
+    StoreProductCategoriesView(navigationPath: .constant(.init()), storeModel: .init(name: "SomeModel", brandImageURL: nil))
 }
