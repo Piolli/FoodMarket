@@ -58,6 +58,6 @@ struct CartItemView: View {
 }
 
 #Preview {
-    CartItemView(productModel: .init(name: "Name", imageURL: nil, description: nil, category: "qwe", price: 12, quantity: 1))
+    CartItemView(productModel: .init(id: 0, name: "Name", imageURL: nil, description: nil, category: "qwe", price: 12, quantity: 1))
         .environmentObject(CartStore(state: CartState(products: []), reducer: cardReducer))
 }

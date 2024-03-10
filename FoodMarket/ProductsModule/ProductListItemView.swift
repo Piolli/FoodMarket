@@ -61,7 +61,8 @@ struct ProductListItemView: View {
 }
 
 #Preview {
-    ProductListItemView(productModel: .init(name: "Name",
+    ProductListItemView(productModel: .init(id: 0,
+                                            name: "Name",
                                             imageURL: URL(string: "https://storage.needpix.com/rsynced_images/red-304674_1280.png"),
                                             description: "Desciprton",
                                             category: "",

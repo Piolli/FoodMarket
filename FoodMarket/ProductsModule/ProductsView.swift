@@ -10,17 +10,9 @@ import SwiftUI
 struct ProductsView: View {
     
     @Binding var navigationPath: NavigationPath
-    
-    let products: [ProductModel] = (0...10).map { ProductModel(name: "Product #\($0)",
-                                                               imageURL: URL(string: $0 % 2 == 0
-                                                                ? "https://storage.needpix.com/rsynced_images/red-304674_1280.png"
-                                                                : "https://i2.pickpik.com/photos/480/989/100/apple-fruit-nutrition-red-preview.jpg"),
-                                                             description: nil,
-                                                             category: "CATEGORY #\($0)",
-                                                               price: Float($0) * 10 + 1,
-                                                               quantity: 0) }
-    
-    @State private var path = NavigationPath()
+
+    @EnvironmentObject private var cartStore: CartStore
+    @State private var products: [ProductModel] = []
     
     var body: some View {
         contentListView()
@@ -48,10 +40,32 @@ struct ProductsView: View {
         .refreshable {
             await reload()
         }
+        .onAppear {
+            /// TODO: request new products
+            /// store.dispatch(.fetchProducts(for: productStore))
+            Task {
+                await reload()
+            }
+        }
     }
     
     func reload() async {
-        print("Stores list reloading")
+        let newProducts: [ProductModel] = (0...10).map { ProductModel(id: $0,
+                                                                      name:  "Product #\($0)",
+                                                                      imageURL: URL(string: $0 % 2 == 0
+                                                                                    ? "https://storage.needpix.com/rsynced_images/red-304674_1280.png"
+                                                                                    : "https://i2.pickpik.com/photos/480/989/100/apple-fruit-nutrition-red-preview.jpg"),
+                                                                      description: nil,
+                                                                      category: "CATEGORY #\($0)",
+                                                                      price: Float($0) * 10 + 1,
+                                                                      quantity: 0) }
+        
+        newProducts.forEach { item in
+            let quantity = cartStore.state.products.first(where: { item.id == $0.id })?.quantity
+            item.quantity = quantity ?? 0
+        }
+        
+        self.products = newProducts
     }
 }
 

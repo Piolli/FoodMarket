@@ -8,6 +8,7 @@
 import Foundation
 
 class ProductModel: Identifiable, ObservableObject {
+    let id: Int
     let name: String
     let imageURL: URL?
     let description: String?
@@ -15,7 +16,8 @@ class ProductModel: Identifiable, ObservableObject {
     let price: Float
     @Published var quantity: Int
     
-    init(name: String, imageURL: URL?, description: String?, category: String, price: Float, quantity: Int) {
+    init(id: Int, name: String, imageURL: URL?, description: String?, category: String, price: Float, quantity: Int) {
+        self.id = id
         self.name = name
         self.imageURL = imageURL
         self.description = description
