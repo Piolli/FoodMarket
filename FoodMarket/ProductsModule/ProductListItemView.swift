@@ -10,6 +10,7 @@ import Kingfisher
 
 struct ProductListItemView: View {
     
+    @EnvironmentObject var cartStore: CartStore
     let productModel: ProductModel
     
     var body: some View {
@@ -28,10 +29,32 @@ struct ProductListItemView: View {
                     Text(productModel.formattedPrice)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                Button("+") {
-                    /// TODO: add product to cart
-                }.buttonStyle(.borderedProminent)
             }.padding([.leading, .trailing, .bottom], 12)
+            
+            HStack {
+                if productModel.quantity > 0 {
+                    Button("-") {
+                        cartStore.dispatch(action: .remove(product: productModel))
+                    }
+                    .frame(width: 64, height: 64)
+                    .buttonStyle(.borderedProminent)
+                    
+                    Text("\(productModel.quantity)").overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray))
+                    
+                    Button("+") {
+                        cartStore.dispatch(action: .add(product: productModel))
+                    }
+                    .frame(width: 64, height: 64)
+                    .buttonStyle(.borderedProminent)
+                } else {
+                    Button("Add product") {
+                        cartStore.dispatch(action: .add(product: productModel))
+                    }
+                    .padding()
+                    .frame(height: 64)
+                    .buttonStyle(.borderedProminent)
+                }
+            }
         }
         .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray))
     }
@@ -42,6 +65,8 @@ struct ProductListItemView: View {
                                             imageURL: URL(string: "https://storage.needpix.com/rsynced_images/red-304674_1280.png"),
                                             description: "Desciprton",
                                             category: "",
-                                            price: 12.10))
+                                            price: 12.10,
+                                            quantity: 1))
+    .environmentObject(CartStore(state: CartState(products: []), reducer: cardReducer))
     .frame(width: 300, height: 200)
 }

@@ -17,7 +17,8 @@ struct ProductsView: View {
                                                                 : "https://i2.pickpik.com/photos/480/989/100/apple-fruit-nutrition-red-preview.jpg"),
                                                              description: nil,
                                                              category: "CATEGORY #\($0)",
-                                                             price: Float($0) * 10 + 1) }
+                                                               price: Float($0) * 10 + 1,
+                                                               quantity: 0) }
     
     @State private var path = NavigationPath()
     

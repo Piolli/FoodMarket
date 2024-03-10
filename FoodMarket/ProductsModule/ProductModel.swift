@@ -7,23 +7,29 @@
 
 import Foundation
 
-class ProductModel: Identifiable {
+class ProductModel: Identifiable, ObservableObject {
     let name: String
     let imageURL: URL?
     let description: String?
     let category: String
     let price: Float
+    @Published var quantity: Int
     
-    init(name: String, imageURL: URL?, description: String?, category: String, price: Float) {
+    init(name: String, imageURL: URL?, description: String?, category: String, price: Float, quantity: Int) {
         self.name = name
         self.imageURL = imageURL
         self.description = description
         self.category = category
         self.price = price
+        self.quantity = quantity
     }
     
     var formattedPrice: String {
         return currencyFormatter.string(from: price as NSNumber)!
+    }
+    
+    var calculatedFormattedPrice: String {
+        return currencyFormatter.string(from: (price * Float(quantity)) as NSNumber)!
     }
     
     private let currencyFormatter: NumberFormatter = {
