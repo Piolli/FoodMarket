@@ -7,30 +7,6 @@
 
 import SwiftUI
 
-class HorizontalCapsuleViewModel: ObservableObject {
-    @Published var selectedItem: HorizontalCapsuleItem?
-    var items: [HorizontalCapsuleItem]
-    
-    init(items: [HorizontalCapsuleItem]) {
-        selectedItem = items.first
-        self.items = items
-    }
-    
-    func getBindingIsOn(for item: HorizontalCapsuleItem, scrollViewProxy: ScrollViewProxy) -> Binding<Bool> {
-        return Binding<Bool>(get: { self.selectedItem == item },
-                             set: { _ in
-            self.selectedItem = item
-            withAnimation {
-                scrollViewProxy.scrollTo(item.id, anchor: .center)
-            }
-        })
-    }
-    
-    deinit {
-        print("DEINIT_\(Self.self)")
-    }
-}
-
 struct HorizontalCapsuleItem: Identifiable, Equatable {
     let id = UUID()
     var isToggled: Bool
@@ -43,16 +19,32 @@ struct HorizontalCapsuleItem: Identifiable, Equatable {
 }
 
 struct HorizontalCapsulesView: View {
-    @ObservedObject var viewModel: HorizontalCapsuleViewModel
+    @EnvironmentObject var appStore: AppStore
+    @Binding var selectedItem: HorizontalCapsuleItem?
+    @Binding var items: [HorizontalCapsuleItem]
+    
+    init(selectedItem: Binding<HorizontalCapsuleItem?>, items: Binding<[HorizontalCapsuleItem]>) {
+        self._selectedItem = selectedItem
+        self._items = items
+    }
     
     var body: some View {
         ScrollViewReader { scrollPosition in
             ScrollView(.horizontal) {
                 HStack(spacing: 8) {
-                    ForEach(viewModel.items) { item in
-                        Toggle(item.name, isOn: viewModel.getBindingIsOn(for: item, scrollViewProxy: scrollPosition))
-                            .toggleStyle(ButtonableToggleStyle())
-                            .id(item.id)
+                    ForEach(items) { item in
+                        Toggle(item.name, isOn: Binding<Bool>(get: {
+                            self.selectedItem == item
+                        },
+                                                              set: { _ in
+                            self.selectedItem = item
+                            self.appStore.dispatch(action: StoreAction.filterProducts(by: item.name))
+                            withAnimation {
+                                scrollPosition.scrollTo(item.id, anchor: .center)
+                            }
+                        }))
+                        .toggleStyle(ButtonableToggleStyle())
+                        .id(item.id)
                     }
                 }
                 .padding([.leading, .trailing], 8)
@@ -71,8 +63,9 @@ struct HorizontalCapsulesView: View {
 
 #Preview {
     VStack {
-        HorizontalCapsulesView(viewModel: .init(items: (0...15).map { .init(name: "Item #\($0)", 
-                                                                            isToggled: false) }))
+//        HorizontalCapsulesView(selectedItem: .constant(nil), items: .constant([]))
+        HorizontalCapsulesView(selectedItem: .constant(.init(name: "Name", isToggled: false)), items: .constant([]))
+//        HorizontalCapsulesView(items: [])
         Spacer()
     }
 }
