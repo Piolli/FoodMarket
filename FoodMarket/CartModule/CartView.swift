@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CartView: View {
     
-    @EnvironmentObject private var cartStore: CartStore
+    @EnvironmentObject private var cartStore: AppStore
     
     var body: some View {
-        List(cartStore.state.products) {
+        List(cartStore.state.cartState.products) {
             CartItemView(productModel: $0)
                 .listRowSeparator(.hidden)
                 .listRowInsets(.init(top: 8, leading: 12, bottom: 0, trailing: 12))

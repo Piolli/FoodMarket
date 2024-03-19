@@ -10,45 +10,49 @@ import SwiftUI
 struct ProductsView: View {
     
     @Binding var navigationPath: NavigationPath
-
-    @EnvironmentObject private var cartStore: CartStore
-    @State private var products: [ProductModel] = []
+    @EnvironmentObject private var appStore: AppStore
+    @State private var productCategories: [HorizontalCapsuleItem] = []
+    @State private var selectedItem: HorizontalCapsuleItem?
     
+    let columns = [
+        GridItem(.flexible(), spacing: 8),
+        GridItem(.flexible(), spacing: 8)
+    ]
+
     var body: some View {
-        contentListView()
-    }
-    
-    func contentListView() -> some View {
-        let columns = [
-            GridItem(.flexible(), spacing: 8),
-            GridItem(.flexible(), spacing: 8)
-        ]
-
-        return
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 12, pinnedViews: [.sectionHeaders]) {
-                    Section {
-                        ForEach(products) { productItem in
-                            ProductListItemView(productModel: productItem)
-                        }
-                    } header: {
-                        HorizontalCapsulesView(viewModel: .init(items: products.map { .init(name: $0.name, isToggled: false) }))
-                            .padding([.leading, .trailing], -16)
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 12, pinnedViews: [.sectionHeaders]) {
+                Section {
+                    ForEach(appStore.state.storeState.products) { productItem in
+                        ProductListItemView(productModel: productItem)
                     }
-                }.padding([.leading, .trailing], 16)
-            }
+                } header: {
+                    HorizontalCapsulesView(selectedItem: $selectedItem,
+                                           items: $productCategories)
+                    .padding([.leading, .trailing], -16)
+                }
+            }.padding([.leading, .trailing], 16)
+        }
         .refreshable {
             await reload()
         }
         .onAppear {
             /// TODO: request new products
             /// store.dispatch(.fetchProducts(for: productStore))
-            Task {
-                await reload()
+            //  Task {
+            //      await reload()
+            //  }
+            appStore.dispatch(action: StoreAction.loadProducts(for: .init(name: "Name", brandImageURL: nil)))
+            
+            productCategories = Array(Set(appStore.state.storeState.initialProducts.enumerated().map(\.element.category))).sorted().map { .init(name: $0,
+                                                                                                                                                                     isToggled: true) }
+            selectedItem = productCategories.first
+            if let selectedItem {
+                self.appStore.dispatch(action: StoreAction.filterProducts(by: selectedItem.name))
             }
         }
     }
-    
+ 
     func reload() async {
         let newProducts: [ProductModel] = (0...10).map { ProductModel(id: $0,
                                                                       name:  "Product #\($0)",
@@ -61,11 +65,9 @@ struct ProductsView: View {
                                                                       quantity: 0) }
         
         newProducts.forEach { item in
-            let quantity = cartStore.state.products.first(where: { item.id == $0.id })?.quantity
+            let quantity = appStore.state.cartState.products.first(where: { item.id == $0.id })?.quantity
             item.quantity = quantity ?? 0
         }
-        
-        self.products = newProducts
     }
 }
 

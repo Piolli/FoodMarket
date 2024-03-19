@@ -10,7 +10,7 @@ import Kingfisher
 
 struct ProductListItemView: View {
     
-    @EnvironmentObject var cartStore: CartStore
+    @EnvironmentObject var cartStore: AppStore
     let productModel: ProductModel
     
     var body: some View {
@@ -34,7 +34,7 @@ struct ProductListItemView: View {
             HStack {
                 if productModel.quantity > 0 {
                     Button("-") {
-                        cartStore.dispatch(action: .remove(product: productModel))
+                        cartStore.dispatch(action: CartAction.remove(product: productModel))
                     }
                     .frame(width: 64, height: 64)
                     .buttonStyle(.borderedProminent)
@@ -42,13 +42,13 @@ struct ProductListItemView: View {
                     Text("\(productModel.quantity)").overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray))
                     
                     Button("+") {
-                        cartStore.dispatch(action: .add(product: productModel))
+                        cartStore.dispatch(action: CartAction.increaseQuantity(product: productModel))
                     }
                     .frame(width: 64, height: 64)
                     .buttonStyle(.borderedProminent)
                 } else {
                     Button("Add product") {
-                        cartStore.dispatch(action: .add(product: productModel))
+                        cartStore.dispatch(action: CartAction.increaseQuantity(product: productModel))
                     }
                     .padding()
                     .frame(height: 64)
@@ -68,6 +68,6 @@ struct ProductListItemView: View {
                                             category: "",
                                             price: 12.10,
                                             quantity: 1))
-    .environmentObject(CartStore(state: CartState(products: []), reducer: cardReducer))
+    .environmentObject(AppStore(state: AppState(), reducers: [cartReducer, storeReducer]))
     .frame(width: 300, height: 200)
 }

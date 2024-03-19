@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct CartItemView: View {
-    @EnvironmentObject var cartStore: CartStore
+    @EnvironmentObject var cartStore: AppStore
     @ObservedObject var productModel: ProductModel
     @State var loadingImage = true
     
@@ -38,10 +38,10 @@ struct CartItemView: View {
                 VStack(alignment: .center) {
                     Stepper(
                         onIncrement: {
-                            cartStore.dispatch(action: .add(product: productModel))
+                            cartStore.dispatch(action: CartAction.increaseQuantity(product: productModel))
                         },
                         onDecrement: {
-                            cartStore.dispatch(action: .remove(product: productModel))
+                            cartStore.dispatch(action: CartAction.remove(product: productModel))
                         },
                         label: { }
                     ).labelsHidden()
@@ -59,5 +59,5 @@ struct CartItemView: View {
 
 #Preview {
     CartItemView(productModel: .init(id: 0, name: "Name", imageURL: nil, description: nil, category: "qwe", price: 12, quantity: 1))
-        .environmentObject(CartStore(state: CartState(products: []), reducer: cardReducer))
+        .environmentObject(AppStore(state: AppState(), reducers: [cartReducer, storeReducer]))
 }

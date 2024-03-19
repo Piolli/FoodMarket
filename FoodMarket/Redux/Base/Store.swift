@@ -7,21 +7,23 @@
 
 import Foundation
 
-typealias CartStore = Store<CartAction, CartState>
+//typealias CartStore = Store<CartAction, CartState>
+typealias AppStore = Store<AppState>
 
-class Store<Action, State>: ObservableObject {
+class Store<State>: ObservableObject {
     
     @Published private(set) var state: State
-    private let reducer: Reducer<Action, State>
+    private let reducers: [Reducer<Action, State>]
     
-    init(state: State, reducer: @escaping Reducer<Action, State>) {
+    init(state: State, reducers: [Reducer<Action, State>]) {
         self.state = state
-        self.reducer = reducer
+        self.reducers = reducers
     }
     
     func dispatch(action: Action) {
-        self.state = reducer(action, state)
-        
+        for reducer in reducers {
+            self.state = reducer(action, state)
+        }
         /// TODO: add middleware logic
     }
     

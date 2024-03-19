@@ -41,3 +41,13 @@ class ProductModel: Identifiable, ObservableObject {
         return currencyFormatter
     }()
 }
+
+extension ProductModel: Hashable {
+    static func == (lhs: ProductModel, rhs: ProductModel) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}

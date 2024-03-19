@@ -15,7 +15,7 @@ struct FoodMarketApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(CartStore(state: CartState(products: []), reducer: cardReducer))
+                .environmentObject(AppStore(state: AppState(), reducers: [cartReducer, storeReducer]))
         }
     }
 }
